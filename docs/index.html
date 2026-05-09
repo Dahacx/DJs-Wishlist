@@ -1,0 +1,1142 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ's Wishlist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Libre+Baskerville:ital,wght@0,700;1,700&amp;display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d0d0f;
+  --surface:   #141416;
+  --surface2:  #1c1c20;
+  --surface3:  #242428;
+  --border:    #27272c;
+  --border2:   #32323a;
+  --text:      #e8e8ec;
+  --text2:     #dadae7;
+  --text3:     #dedee7;
+  --accent:    #1a6cf0;
+  --accent-bg: #1a6cf014;
+  --accent-bd: #1a6cf030;
+
+  /* priority — muted but distinct */
+  --c1: #e8544a; --c1-bg: #e8544a12; --c1-bd: #e8544a30;
+  --c2: #d4862a; --c2-bg: #d4862a12; --c2-bd: #d4862a30;
+  --c3: #3d9e5a; --c3-bg: #3d9e5a12; --c3-bd: #3d9e5a30;
+  --c4: #7060c8; --c4-bg: #7060c812; --c4-bd: #7060c830;
+
+  --radius: 6px;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 48px 24px 100px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ── */
+.site-header {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  font-family: 'Libre Baskerville', Georgia, serif;
+  letter-spacing: -0.3px;
+}
+
+.header-right { display: flex; gap: 8px; align-items: center; }
+
+/* ── BUTTONS ── */
+button { font-family: var(--sans); cursor: pointer; transition: all 0.1s; border: none; }
+
+.btn {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 6px 13px;
+  border-radius: var(--radius);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.btn:hover { border-color: #444450; color: var(--text); }
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.btn-accent:hover { background: #2275f8; }
+
+.btn-danger {
+  background: transparent;
+  color: var(--c1);
+  border: 1px solid var(--c1-bd);
+  padding: 5px 11px;
+  border-radius: var(--radius);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+.btn-danger:hover { background: var(--c1-bg); }
+
+/* ── DIVIDER ── */
+.divider {
+  max-width: 800px;
+  margin: 0 auto 32px;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── STATS ── */
+.stats-bar {
+  max-width: 800px;
+  margin: 0 auto 28px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.stat-item {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text3);
+  letter-spacing: 0.1px;
+}
+
+.stat-item strong { color: var(--text2); font-weight: 500; }
+
+/* ── LEGEND ── */
+.legend {
+  max-width: 800px;
+  margin: 0 auto 32px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-weight: 400;
+}
+
+.ldot {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── LIST WRAP ── */
+.list-wrap { max-width: 800px; margin: 0 auto; }
+
+/* ── GROUP ── */
+.group-block { margin-bottom: 32px; }
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  padding: 0 2px;
+}
+
+.group-label {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.group-rule { flex: 1; height: 1px; background: var(--border); }
+
+.group-count {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+}
+
+.btn-group-edit {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  color: var(--text3);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 400;
+  cursor: pointer;
+  display: none;
+}
+body.editing .btn-group-edit { display: block; }
+.btn-group-edit:hover { border-color: var(--border2); color: var(--text2); }
+
+/* ── ITEM ROW ── */
+.item-row {
+  display: grid;
+  grid-template-columns: 36px 52px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.1s, background 0.1s;
+}
+
+.item-row:hover {
+  background: var(--surface2);
+  border-color: var(--border2);
+}
+
+/* priority badge */
+.p-badge {
+  width: 36px; height: 36px;
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+  border: 1px solid;
+}
+
+.pb-none { color: var(--text3); border-color: var(--border2); background: transparent; }
+.pb-1    { color: var(--c1); border-color: var(--c1-bd); background: var(--c1-bg); }
+.pb-2    { color: var(--c2); border-color: var(--c2-bd); background: var(--c2-bg); }
+.pb-3    { color: var(--c3); border-color: var(--c3-bd); background: var(--c3-bg); }
+.pb-4    { color: var(--c4); border-color: var(--c4-bd); background: var(--c4-bg); }
+
+/* thumbnail */
+.item-thumb {
+  width: 52px; height: 52px;
+  border-radius: 5px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  flex-shrink: 0;
+  display: block;
+}
+
+.item-thumb-empty {
+  width: 52px; height: 52px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+
+.item-body { min-width: 0; }
+
+.item-name {
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.item-note {
+  font-size: 0.68rem;
+  color: var(--text3);
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-right { text-align: right; flex-shrink: 0; }
+
+.item-price {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.item-hint {
+  font-size: 0.6rem;
+  color: var(--text3);
+  margin-top: 3px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.item-row:hover .item-hint { opacity: 1; }
+
+/* edit cursor */
+.item-row.editable { cursor: pointer; }
+
+/* ── INLINE FORMS ── */
+.inline-form {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.inline-form .span2 { grid-column: 1 / -1; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+
+.field label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-weight: 400;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+select {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: 7px 9px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.1s;
+  -webkit-appearance: none;
+}
+
+input:focus, select:focus { border-color: var(--accent); }
+
+select option { background: var(--surface2); color: var(--text); }
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* ── EDIT MODE EXTRAS ── */
+body:not(.editing) .edit-only { display: none !important; }
+
+.edit-toolbar {
+  max-width: 800px;
+  margin: 0 auto 24px;
+  display: none;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+body.editing .edit-toolbar { display: flex; }
+
+.add-item-form {
+  max-width: 800px;
+  margin: 0 auto 28px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: none;
+}
+
+body.editing .add-item-form { display: block; }
+
+.form-section-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+.add-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.add-grid .span2 { grid-column: 1 / -1; }
+.add-actions { margin-top: 12px; display: flex; justify-content: flex-end; gap: 8px; }
+
+/* group inline edit */
+.group-edit-form {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.group-edit-form input { max-width: 220px; }
+</style>
+<link rel="stylesheet" href="chrome-extension://iheobagjkfklnlikgihanlhcddjoihkg/fonts/Metropolis.css"><link rel="stylesheet" href="chrome-extension://iheobagjkfklnlikgihanlhcddjoihkg/fonts/Metropolis.css"></head>
+<body class="editing">
+
+<header class="site-header">
+  <h1><span style="color:#e8e8ec;">DJ's</span> <span style="color:#d4a017; font-style:italic;">Wishlist</span></h1>
+  <div class="header-right">
+    <button class="btn edit-only" id="btn-export" onclick="exportHTML()">Export file</button>
+    <button class="btn" id="btn-edit" onclick="enterEdit()" style="display: none;">Edit</button>
+    <button class="btn-accent" id="btn-done" style="" onclick="exitEdit()">Done</button>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<div class="stats-bar">
+  <div class="stat-item">Items: <strong id="s-count">16</strong></div>
+  <div class="stat-item">Total: <strong id="s-total">$945.43</strong></div>
+  <div class="stat-item" id="s-tbd"></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="ldot" style="background:var(--c1)"></div>1–3 &nbsp;Really want</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--c2)"></div>4–5 &nbsp;Would love</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--c3)"></div>6–7 &nbsp;Nice to have</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--c4)"></div>8–10 &nbsp;Extras</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--border2); border-radius:50%;"></div>TBD</div>
+</div>
+
+<!-- edit toolbar: add group -->
+<div class="edit-toolbar edit-only">
+  <input type="text" id="new-group-name" placeholder="New group name" style="max-width:200px;">
+  <button class="btn-accent" onclick="addGroup()">Add group</button>
+</div>
+
+<!-- add item form -->
+<div class="add-item-form edit-only">
+  <div class="form-section-label">Add item</div>
+  <div class="add-grid">
+    <div class="field span2"><label>Name</label><input type="text" id="n-name" placeholder=""></div>
+    <div class="field"><label>Price ($)</label><input type="number" id="n-price" step="0.01" min="0" placeholder="0.00"></div>
+    <div class="field"><label>Priority (1–10)</label>
+      <select id="n-priority">
+        <option value="">— TBD</option>
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        <option value="4">4</option><option value="5">5</option>
+        <option value="6">6</option><option value="7">7</option>
+        <option value="8">8</option><option value="9">9</option><option value="10">10</option>
+      </select>
+    </div>
+    <div class="field"><label>Group</label><select id="n-group"><option value="General" selected="">General</option><option value="Cubing">Cubing</option><option value="Other">Other</option><option value="Desk">Desk</option><option value="3d Printing">3d Printing</option><option value="Electronics">Electronics</option></select></div>
+    <div class="field span2"><label>Product link</label><input type="url" id="n-link" placeholder="https://"></div>
+    <div class="field span2"><label>Image URL</label><input type="url" id="n-img" placeholder="https://"></div>
+    <div class="field span2"><label>Notes</label><input type="text" id="n-note" placeholder=""></div>
+  </div>
+  <div class="add-actions">
+    <button class="btn-accent" onclick="addItem()">Add</button>
+  </div>
+</div>
+
+<div class="list-wrap" id="list-wrap"><div class="group-block"><div class="group-header">
+        <span class="group-label">General</span>
+        <span class="group-rule"></span>
+        <span class="group-count">0</span>
+        <button class="btn-group-edit" onclick="startEditGroup(0)">rename / remove</button>
+      </div></div><div class="group-block"><div class="group-header">
+        <span class="group-label">Cubing</span>
+        <span class="group-rule"></span>
+        <span class="group-count">2</span>
+        <button class="btn-group-edit" onclick="startEditGroup(1)">rename / remove</button>
+      </div><div class="item-row editable" onclick="startEditItem(0)">
+          <div class="p-badge pb-1">1</div>
+          <img class="item-thumb" src="https://www.thecubicle.com/cdn/shop/files/Ferrocore_V2_UV_-_2_1.png?v=1777922834&amp;width=800" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">FerroCoreV2 Speed Cube</div>
+            <div class="item-note">3×3 UV Coated Best in the World</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#e65c00; color:white">$59.99</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(1)">
+          <div class="p-badge pb-1">2</div>
+          <img class="item-thumb" src="https://www.thecubicle.com/cdn/shop/files/dayan_20fto.jpg?v=1726932188&amp;width=800" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">FTO Magnetic Cube</div>
+            <div class="item-note">Dayan, magnetic ball core</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#c6b800; color:white">$29.99</div>
+            <div class="item-hint">open →</div>
+          </div></div></div><div class="group-block"><div class="group-header">
+        <span class="group-label">Other</span>
+        <span class="group-rule"></span>
+        <span class="group-count">1</span>
+        <button class="btn-group-edit" onclick="startEditGroup(2)">rename / remove</button>
+      </div><div class="item-row editable" onclick="startEditItem(2)">
+          <div class="p-badge pb-1">3</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71G1IShHgRL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Alesis Recital 88 Piano</div>
+            <div class="item-note">Full-size, semi-weighted keys</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#b71c1c; color:white">$229.99</div>
+            <div class="item-hint">open →</div>
+          </div></div></div><div class="group-block"><div class="group-header">
+        <span class="group-label">Desk</span>
+        <span class="group-rule"></span>
+        <span class="group-count">6</span>
+        <button class="btn-group-edit" onclick="startEditGroup(3)">rename / remove</button>
+      </div><div class="item-row editable" onclick="startEditItem(3)">
+          <div class="p-badge pb-2">4</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71bBCTIvIIL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">SanDisk 1TB Portable SSD</div>
+            
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#e64a00; color:white">$78.99</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(5)">
+          <div class="p-badge pb-2">4</div>
+          <img class="item-thumb" src="https://www.ikea.com/us/en/images/products/alex-drawer-unit-on-casters-black-brown__0993105_pe820410_s5.jpg?f=xl" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">IKEA ALEX Drawers</div>
+            <div class="item-note">Black-brown, on casters</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#d32f2f; color:white">$120.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(7)">
+          <div class="p-badge pb-2">4</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/51oILYHH08L._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Retractable USB-C Cable</div>
+            <div class="item-note">Want 2 — front and back of desk</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#2e7d32; color:white">$10.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(14)">
+          <div class="p-badge pb-2">4</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71s67XJ8fWL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Keyboard</div>
+            
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#e65c00; color:white">$42.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(6)">
+          <div class="p-badge pb-2">5</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71pk04dnsBL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Magnetic USB-C Adapter</div>
+            <div class="item-note">Detachable</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#2e7d32; color:white">$14.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(13)">
+          <div class="p-badge pb-2">5</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/61qcInuQIkL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Under Desk Drawer</div>
+            <div class="item-note">No lock, flush to bottom of desk</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#d32f2f; color:white">$109.00</div>
+            <div class="item-hint">open →</div>
+          </div></div></div><div class="group-block"><div class="group-header">
+        <span class="group-label">3d Printing</span>
+        <span class="group-rule"></span>
+        <span class="group-count">3</span>
+        <button class="btn-group-edit" onclick="startEditGroup(4)">rename / remove</button>
+      </div><div class="item-row editable" onclick="startEditItem(8)">
+          <div class="p-badge pb-1">3</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71QhCoOu+lL._SX522_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Air Quality Sensor</div>
+            <div class="item-note">For 3D printer safety</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#e64a00; color:white">$70.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(10)">
+          <div class="p-badge pb-3">6</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/61rQUIWqgBL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Drawer Slides</div>
+            <div class="item-note">For 3D printer project</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#c6b800; color:white">$25.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(11)">
+          <div class="p-badge pb-3">7</div>
+          <img class="item-thumb" src="https://biqu.equipment/cdn/shop/files/SFSV2.0_1.png?v=1757557110&amp;width=1220" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Filament Protector</div>
+            <div class="item-note">3D printer filament storage</div>
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#c6b800; color:white">$22.99</div>
+            <div class="item-hint">open →</div>
+          </div></div></div><div class="group-block"><div class="group-header">
+        <span class="group-label">Electronics</span>
+        <span class="group-rule"></span>
+        <span class="group-count">4</span>
+        <button class="btn-group-edit" onclick="startEditGroup(5)">rename / remove</button>
+      </div><div class="item-row editable" onclick="startEditItem(4)">
+          <div class="p-badge pb-2">4</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71CH8uDqbbL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Electric Screwdriver</div>
+            
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#e64a00; color:white">$64.99</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(12)">
+          <div class="p-badge pb-2">5</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/81OaiQm5EoL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Rechargeable Batteries</div>
+            
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#c6b800; color:white">$26.00</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(15)">
+          <div class="p-badge pb-2">5</div>
+          <img class="item-thumb" src="https://ae-pic-a1.aliexpress-media.com/kf/S87ea078e5f024a9c81433322c7a0a790R.jpg_220x220q75.jpg_.avif" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">USB-C Soldering Iron</div>
+            
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#c6b800; color:white">$25.49</div>
+            <div class="item-hint">open →</div>
+          </div></div><div class="item-row editable" onclick="startEditItem(9)">
+          <div class="p-badge pb-3">6</div>
+          <img class="item-thumb" src="https://m.media-amazon.com/images/I/71mTLNCpnRL._AC_SX679_.jpg" alt="" onerror="this.style.display='none'">
+          <div class="item-body">
+            <div class="item-name">Wireless Charger</div>
+            
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:#c6b800; color:white">$17.00</div>
+            <div class="item-hint">open →</div>
+          </div></div></div></div>
+
+<script>
+const SEED = {
+  "groups": [
+    "General",
+    "Cubing",
+    "Other",
+    "Desk",
+    "3d Printing",
+    "Electronics"
+  ],
+  "items": [
+    {
+      "name": "FerroCoreV2 Speed Cube",
+      "price": 59.99,
+      "priority": 1,
+      "group": "Cubing",
+      "link": "https://www.thecubicle.com/products/moyu-weilong-ferrocore-v2-3x3-uv-coated",
+      "img": "https://www.thecubicle.com/cdn/shop/files/Ferrocore_V2_UV_-_2_1.png?v=1777922834&width=800",
+      "note": "3×3 UV Coated Best in the World"
+    },
+    {
+      "name": "FTO Magnetic Cube",
+      "price": 29.99,
+      "priority": 2,
+      "group": "Cubing",
+      "link": "https://www.thecubicle.com/products/dayan-fto-magnetic-ball-core",
+      "img": "https://www.thecubicle.com/cdn/shop/files/dayan_20fto.jpg?v=1726932188&width=800",
+      "note": "Dayan, magnetic ball core"
+    },
+    {
+      "name": "Alesis Recital 88 Piano",
+      "price": 229.99,
+      "priority": 3,
+      "group": "Other",
+      "link": "https://www.amazon.com/dp/B01DZXE9NC",
+      "img": "https://m.media-amazon.com/images/I/71G1IShHgRL._AC_SX679_.jpg",
+      "note": "Full-size, semi-weighted keys"
+    },
+    {
+      "name": "SanDisk 1TB Portable SSD",
+      "price": 78.99,
+      "priority": 4,
+      "group": "Desk",
+      "link": "https://www.amazon.com/dp/B0C5JQ68FY",
+      "img": "https://m.media-amazon.com/images/I/71bBCTIvIIL._AC_SX679_.jpg",
+      "note": ""
+    },
+    {
+      "name": "Electric Screwdriver",
+      "price": 64.99,
+      "priority": 4,
+      "group": "Electronics",
+      "link": "https://a.co/d/5jvLnir",
+      "img": "https://m.media-amazon.com/images/I/71CH8uDqbbL._AC_SX679_.jpg",
+      "note": ""
+    },
+    {
+      "name": "IKEA ALEX Drawers",
+      "price": 120,
+      "priority": 4,
+      "group": "Desk",
+      "link": "https://www.ikea.com/us/en/p/alex-drawer-unit-on-casters-black-brown-s29422194/",
+      "img": "https://www.ikea.com/us/en/images/products/alex-drawer-unit-on-casters-black-brown__0993105_pe820410_s5.jpg?f=xl",
+      "note": "Black-brown, on casters"
+    },
+    {
+      "name": "Magnetic USB-C Adapter",
+      "price": 14,
+      "priority": 5,
+      "group": "Desk",
+      "link": "https://www.amazon.com/dp/B0F993WWFH",
+      "img": "https://m.media-amazon.com/images/I/71pk04dnsBL._AC_SX679_.jpg",
+      "note": "Detachable"
+    },
+    {
+      "name": "Retractable USB-C Cable",
+      "price": 10,
+      "priority": 4,
+      "group": "Desk",
+      "link": "https://a.co/d/81IDJ24",
+      "img": "https://m.media-amazon.com/images/I/51oILYHH08L._AC_SX679_.jpg",
+      "note": "Want 2 — front and back of desk"
+    },
+    {
+      "name": "Air Quality Sensor",
+      "price": 70,
+      "priority": 3,
+      "group": "3d Printing",
+      "link": "https://www.amazon.com/Quality-Portable-Smartair-Detection-Suitable/dp/B0GXKMFSP5/ref=sr_1_1_sspa?crid=3BG2XHSRHVNHJ&dib=eyJ2IjoiMSJ9.RfD_5lSuWvHQmfEOjZhN0oQJz1iXPkq5WOHRBHX-Q9GuUQUmf5cTgGDm6wxcZmsTpy-aO0VdrH4WALLlLEgyJxJz8Mgtobs3b9U9dMPwOlwiznkmbJfo8Y9oj7I5k8sS14cymfLqcFuDeFc1JLSQ3FB2RcLfIV_CnpaOm-MIGweXqsP5jODCTVD9KwezjPK1Pebo4g-Cw1u-w-baJoGrYz90C4FTCkh82TUPY4CoQ64.OYCWG1niJ4Un_yjw24sHADJer64KHJ1EcKZZUfAg73M&dib_tag=se&keywords=air+quality+monitor+3d+printing&qid=1778344463&sprefix=air+quality+monitor+3d+printin%2Caps%2C142&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
+      "img": "https://m.media-amazon.com/images/I/71QhCoOu+lL._SX522_.jpg",
+      "note": "For 3D printer safety"
+    },
+    {
+      "name": "Wireless Charger",
+      "price": 17,
+      "priority": 6,
+      "group": "Electronics",
+      "link": "https://a.co/d/cciWFpB",
+      "img": "https://m.media-amazon.com/images/I/71mTLNCpnRL._AC_SX679_.jpg",
+      "note": ""
+    },
+    {
+      "name": "Drawer Slides",
+      "price": 25,
+      "priority": 6,
+      "group": "3d Printing",
+      "link": "https://a.co/d/2PMYVYF",
+      "img": "https://m.media-amazon.com/images/I/61rQUIWqgBL._AC_SX679_.jpg",
+      "note": "For 3D printer project"
+    },
+    {
+      "name": "Filament Protector",
+      "price": 22.99,
+      "priority": 7,
+      "group": "3d Printing",
+      "link": "https://share.google/5VMicx48e2JCkzAYM",
+      "img": "https://biqu.equipment/cdn/shop/files/SFSV2.0_1.png?v=1757557110&width=1220",
+      "note": "3D printer filament storage"
+    },
+    {
+      "name": "Rechargeable Batteries",
+      "price": 26,
+      "priority": 5,
+      "group": "Electronics",
+      "link": "https://www.amazon.com/CARDIENS-Batteries-Rechargeable-Charging-Indicator/dp/B0DM6FQ1LD/ref=sr_1_3?crid=3KDD46C23XSBQ&dib=eyJ2IjoiMSJ9.oRw4b8kcyT21qLTJSYqpoiMTglGDcOX9oGptm6j2e3okTIsreML7p8zBRRcgA-8YiMXmLbUWubWAXZ9JZ0lVEDJ9VNYZhXT-MD6Ly6aaRSRB3eWgCxmzw0GhcXf7QgDSpY-UWmgO46dSWRxmjZiQF3T6IIAEL-tpmwx2s-Djj-S4GIWFrtdwSU5M2BCPL30T4ip5QCGGZVEWER7REA4FIR0bzioisZi0LigavMEVE3s.Gxyg-zKJ64iLb_LodzRk3EiPbgvRRfZvJKRxUTYu6rE&dib_tag=se&keywords=usb-c+aa+and+aaa&qid=1778344774&sprefix=usb-c+aa+and+aa%2Caps%2C290&sr=8-3",
+      "img": "https://m.media-amazon.com/images/I/81OaiQm5EoL._AC_SX679_.jpg",
+      "note": ""
+    },
+    {
+      "name": "Under Desk Drawer",
+      "price": 109,
+      "priority": 5,
+      "group": "Desk",
+      "link": "https://a.co/d/1YJ7JCH",
+      "img": "https://m.media-amazon.com/images/I/61qcInuQIkL._AC_SX679_.jpg",
+      "note": "No lock, flush to bottom of desk"
+    },
+    {
+      "name": "Keyboard",
+      "price": 42,
+      "priority": 4,
+      "group": "Desk",
+      "link": "https://a.co/d/6CjEJZK",
+      "img": "https://m.media-amazon.com/images/I/71s67XJ8fWL._AC_SX679_.jpg",
+      "note": ""
+    },
+    {
+      "name": "USB-C Soldering Iron",
+      "price": 25.49,
+      "priority": 5,
+      "group": "Electronics",
+      "link": "https://www.aliexpress.us/item/3256806468714219.html",
+      "img": "https://ae-pic-a1.aliexpress-media.com/kf/S87ea078e5f024a9c81433322c7a0a790R.jpg_220x220q75.jpg_.avif",
+      "note": ""
+    }
+  ]
+};
+
+let data = loadData();
+let activeEdit = null;
+
+function loadData() {
+  try { const s = localStorage.getItem('djwl_v5'); if (s) return JSON.parse(s); } catch {}
+  return JSON.parse(JSON.stringify(SEED));
+}
+
+function saveData() {
+  try { localStorage.setItem('djwl_v5', JSON.stringify(data)); } catch {}
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function pClass(p) {
+  if (p === null || p === undefined) return 'pb-none';
+  if (p <= 3) return 'pb-1';
+  if (p <= 5) return 'pb-2';
+  if (p <= 7) return 'pb-3';
+  return 'pb-4';
+}
+
+function pOpts(cur) {
+  let o = `<option value="">— TBD</option>`;
+  for (let i = 1; i <= 10; i++) o += `<option value="${i}"${String(cur??'')===String(i)?' selected':''}>${i}</option>`;
+  return o;
+}
+
+function groupOpts(cur) {
+  return data.groups.map(g => `<option value="${esc(g)}"${g===cur?' selected':''}>${esc(g)}</option>`).join('');
+}
+
+function priceColor(price) {
+  const p = Number(price) || 0;
+  if (p <= 15)  return '#2e7d32'; // dark green
+  if (p <= 30)  return '#c6b800'; // yellow
+  if (p <= 60)  return '#e65c00'; // orange
+  if (p <= 90)  return '#e64a00'; // deeper orange
+  if (p <= 120) return '#d32f2f'; // red
+  if (p <= 300) return '#b71c1c'; // dark red
+  return '#1a0000';               // near-black red
+}
+
+function render() {
+  const editing = document.body.classList.contains('editing');
+
+  const total = data.items.reduce((s, it) => s + Number(it.price || 0), 0);
+  const tbd   = data.items.filter(it => it.priority === null).length;
+  document.getElementById('s-count').textContent = data.items.length;
+  document.getElementById('s-total').textContent = '$' + total.toFixed(2);
+  document.getElementById('s-tbd').textContent   = tbd ? `${tbd} without priority` : '';
+
+  const nGroup = document.getElementById('n-group');
+  if (nGroup) nGroup.innerHTML = groupOpts(data.groups[0]);
+
+  const wrap = document.getElementById('list-wrap');
+  let html = '';
+
+  data.groups.forEach((group, gi) => {
+    const grouped = data.items
+      .map((item, i) => ({ item, i }))
+      .filter(({ item }) => (item.group || 'General') === group)
+      .sort((a, b) => {
+        const ap = a.item.priority, bp = b.item.priority;
+        if (ap === null && bp === null) return 0;
+        if (ap === null) return 1;
+        if (bp === null) return -1;
+        return ap - bp;
+      });
+
+    html += `<div class="group-block">`;
+
+    // group header or group edit form
+    if (editing && activeEdit && activeEdit.type === 'group' && activeEdit.index === gi) {
+      html += `<div class="group-edit-form">
+        <input type="text" id="eg-name" value="${esc(group)}" style="max-width:220px;">
+        <button class="btn-danger" onclick="deleteGroup(${gi})">Remove group</button>
+        <button class="btn" onclick="cancelEdit()">Cancel</button>
+        <button class="btn-accent" onclick="saveGroup(${gi})">Save</button>
+      </div>`;
+    } else {
+      html += `<div class="group-header">
+        <span class="group-label">${esc(group)}</span>
+        <span class="group-rule"></span>
+        <span class="group-count">${grouped.length}</span>
+        <button class="btn-group-edit" onclick="startEditGroup(${gi})">rename / remove</button>
+      </div>`;
+    }
+
+    grouped.forEach(({ item, i }) => {
+      if (editing && activeEdit && activeEdit.type === 'item' && activeEdit.index === i) {
+        html += `<div class="inline-form" id="ef-${i}">
+          <div class="field"><label>Name</label><input type="text" id="ei-name" value="${esc(item.name)}"></div>
+          <div class="field"><label>Price ($)</label><input type="number" id="ei-price" step="0.01" value="${item.price}"></div>
+          <div class="field"><label>Priority</label><select id="ei-priority">${pOpts(item.priority)}</select></div>
+          <div class="field"><label>Group</label><select id="ei-group">${groupOpts(item.group)}</select></div>
+          <div class="field span2"><label>Product link</label><input type="url" id="ei-link" value="${esc(item.link)}"></div>
+          <div class="field span2"><label>Image URL</label><input type="url" id="ei-img" value="${esc(item.img)}"></div>
+          <div class="field span2"><label>Notes</label><input type="text" id="ei-note" value="${esc(item.note)}"></div>
+          <div class="form-actions">
+            <button class="btn-danger" onclick="deleteItem(${i})">Remove</button>
+            <button class="btn" onclick="cancelEdit()">Cancel</button>
+            <button class="btn-accent" onclick="saveItem(${i})">Save</button>
+          </div>
+        </div>`;
+      } else {
+        const thumb = item.img
+          ? `<img class="item-thumb" src="${esc(item.img)}" alt="" onerror="this.style.display='none'">`
+          : `<div class="item-thumb-empty"></div>`;
+
+        const inner = `
+          <div class="p-badge ${pClass(item.priority)}">${item.priority ?? '—'}</div>
+          ${thumb}
+          <div class="item-body">
+            <div class="item-name">${esc(item.name)}</div>
+            ${item.note ? `<div class="item-note">${esc(item.note)}</div>` : ''}
+          </div>
+          <div class="item-right">
+            <div class="item-price" style="background:${priceColor(item.price)}; color:white">$${Number(item.price).toFixed(2)}</div>
+            <div class="item-hint">open &rarr;</div>
+          </div>`;
+
+        if (editing) {
+          html += `<div class="item-row editable" onclick="startEditItem(${i})">${inner}</div>`;
+        } else {
+          html += `<a class="item-row" href="${esc(item.link)}" target="_blank" rel="noopener noreferrer">${inner}</a>`;
+        }
+      }
+    });
+
+    html += `</div>`;
+  });
+
+  wrap.innerHTML = html;
+}
+
+function enterEdit() {
+  document.body.classList.add('editing');
+  document.getElementById('btn-edit').style.display = 'none';
+  document.getElementById('btn-done').style.display = '';
+  render();
+}
+
+function exitEdit() {
+  activeEdit = null;
+  document.body.classList.remove('editing');
+  document.getElementById('btn-edit').style.display = '';
+  document.getElementById('btn-done').style.display = 'none';
+  render();
+}
+
+function startEditItem(i)  { activeEdit = { type: 'item',  index: i  }; render(); const el = document.getElementById('ef-'+i); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+function startEditGroup(i) { activeEdit = { type: 'group', index: i  }; render(); }
+function cancelEdit()      { activeEdit = null; render(); }
+
+function saveItem(i) {
+  const pv = document.getElementById('ei-priority').value;
+  data.items[i] = {
+    name:     document.getElementById('ei-name').value.trim(),
+    price:    parseFloat(document.getElementById('ei-price').value) || 0,
+    priority: pv ? parseInt(pv) : null,
+    group:    document.getElementById('ei-group').value,
+    link:     document.getElementById('ei-link').value.trim(),
+    img:      document.getElementById('ei-img').value.trim(),
+    note:     document.getElementById('ei-note').value.trim(),
+  };
+  activeEdit = null; saveData(); render();
+}
+
+function deleteItem(i) {
+  if (!confirm(`Remove "${data.items[i].name}"?`)) return;
+  data.items.splice(i, 1);
+  activeEdit = null; saveData(); render();
+}
+
+function addItem() {
+  const name = document.getElementById('n-name').value.trim();
+  if (!name) { alert('Name required.'); return; }
+  const pv = document.getElementById('n-priority').value;
+  data.items.push({
+    name,
+    price:    parseFloat(document.getElementById('n-price').value) || 0,
+    priority: pv ? parseInt(pv) : null,
+    group:    document.getElementById('n-group').value || data.groups[0],
+    link:     document.getElementById('n-link').value.trim(),
+    img:      document.getElementById('n-img').value.trim(),
+    note:     document.getElementById('n-note').value.trim(),
+  });
+  ['n-name','n-price','n-link','n-img','n-note'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('n-priority').value = '';
+  saveData(); render();
+}
+
+function addGroup() {
+  const name = document.getElementById('new-group-name').value.trim();
+  if (!name) return;
+  if (data.groups.includes(name)) { alert('Group already exists.'); return; }
+  data.groups.push(name);
+  document.getElementById('new-group-name').value = '';
+  saveData(); render();
+}
+
+function saveGroup(gi) {
+  const newName = document.getElementById('eg-name').value.trim();
+  if (!newName) return;
+  const old = data.groups[gi];
+  data.groups[gi] = newName;
+  data.items.forEach(it => { if (it.group === old) it.group = newName; });
+  activeEdit = null; saveData(); render();
+}
+
+function deleteGroup(gi) {
+  const name = data.groups[gi];
+  const count = data.items.filter(it => it.group === name).length;
+  if (count > 0) {
+    const fallback = data.groups.find((g, i) => i !== gi) || 'General';
+    if (!confirm(`"${name}" has ${count} item(s). They'll move to "${fallback}". Continue?`)) return;
+    data.items.forEach(it => { if (it.group === name) it.group = fallback; });
+  }
+  data.groups.splice(gi, 1);
+  if (data.groups.length === 0) data.groups.push('General');
+  activeEdit = null; saveData(); render();
+}
+
+function exportHTML() {
+  const src = document.documentElement.outerHTML;
+  const newSeed = `const SEED = ${JSON.stringify(data, null, 2)};`;
+  const updated = src.replace(/const SEED = \{[\s\S]*?\};/, newSeed);
+  const blob = new Blob([updated], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dj_wishlist.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+render();
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body></html>
