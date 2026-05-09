@@ -9,8 +9,7 @@ if ! git diff-index --quiet HEAD --; then
     git commit -m "Update wishlist $(date +%Y-%m-%d\ %H:%M:%S)"
     
     echo "🚀 Pushing to GitHub..."
-    git push origin main
+    git push -u origin main
     echo "✅ Done!"
 else
     echo "✨ No changes to push."
-fi
