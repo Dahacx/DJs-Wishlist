@@ -276,7 +276,13 @@ body.editing .btn-group-edit { display: block; }
   text-overflow: ellipsis;
 }
 
-.item-right { text-align: right; flex-shrink: 0; }
+.item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
 
 .item-price {
   font-family: var(--mono);
