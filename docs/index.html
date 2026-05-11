@@ -1380,7 +1380,16 @@ function exportHTML() {
   URL.revokeObjectURL(a.href);
 }
 
+function shouldShowCacheModal() {
+  if (sessionStorage.getItem('djwl_cache_cleared_once')) {
+    sessionStorage.removeItem('djwl_cache_cleared_once');
+    return false;
+  }
+  return true;
+}
+
 function showCacheModal() {
+  if (!shouldShowCacheModal()) return;
   document.getElementById('cache-modal').classList.add('visible');
 }
 
@@ -1390,6 +1399,7 @@ function hideCacheModal() {
 
 function clearCacheAndReload() {
   hideCacheModal();
+  sessionStorage.setItem('djwl_cache_cleared_once', '1');
   try {
     localStorage.removeItem('djwl_v5');
   } catch (err) {
