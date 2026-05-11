@@ -478,6 +478,7 @@ body.editing .add-item-form { display: block; }
   <h1><span style="color:#e8e8ec;">DJ's</span> <span style="color:#d4a017; font-style:italic;">Wishlist</span></h1>
   <div class="header-right" bis_skin_checked="1">
     <button class="btn edit-only" id="btn-export" onclick="exportHTML()">Export file</button>
+    <button class="btn" onclick="clearCacheAndReload()">Clear saved data</button>
     <button class="btn" id="btn-edit" onclick="enterEdit()">Edit</button>
     <button class="btn-accent" id="btn-done" onclick="exitEdit()" style="display: none;">Done</button>
   </div>
@@ -1388,6 +1389,7 @@ function hideCacheModal() {
 }
 
 function clearCacheAndReload() {
+  hideCacheModal();
   try {
     localStorage.removeItem('djwl_v5');
   } catch (err) {
